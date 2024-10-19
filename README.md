@@ -23,8 +23,6 @@ This contract has a web interface with additional constraints on all parameters 
 
 The contract contains arrays with undefined lengths that are iterated by their length. Specifically, there is an array with a length equal to the number of variable users with a minimal deposit of 0.01 ETH. It is unlikely that the number of variable users will exceed the safe limit for array length.
 
-The contract indirectly constrains the number of fixed users (maximum 20) due to the minimumFixedDepositBps. 
-
 There is an array with an undefined length for fixed users withdrawal. It is the array fixedOngoingWithdrawalUsers. In line 577 (and in line 670), there is iteration through this array with undefined length. A new element is pushed into this array on each valid request for withdrawal from a fixed user (and only before the vault ends). A fixed user can have only one such element in this array until they finalize their withdrawal. Fixed users can't make additional withdrawal requests after finalizing, as they can only withdraw their entire deposit or nothing.
 This means that, while it is an array with an undefined length, the code logic limits its length to a maximum of N elements if there are N fixed users. However, because of the minimumFixedDepoistBps, N <= 20.
 
